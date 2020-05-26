@@ -19,13 +19,12 @@ class PlayoffSpider(scrapy.Spider):
         for row in rows:
             if row.get() not in invalid_rows:
                 league_winners = row.css('td.right a::text').getall()
-                seeds = row.css('td.right span::text').getall()
                 yield {
                     'year': row.css('th.left a::text').get(),
                     'lg': league_winners[0],
                     'series': row.css('td.left a::text').get(),
                     'winner': league_winners[1],
                     'loser': league_winners[2],
-                    'win_seed': int(seeds[0][2]),
-                    'lose_seed': int(seeds[1][2])
+                    'wins_winner': int(row.css('td.right::text')[0].get()),
+                    'wins_loser': int(row.css('td.right::text')[1].get())
                 }
