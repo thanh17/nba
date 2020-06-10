@@ -17,6 +17,7 @@ class NbaAbrSpider(scrapy.Spider):
             if abrv == '\n':
                 continue
             team = row.css('td a::text').get()
-            final[team] = abrv.replace('\n','')
-
-        yield final
+            yield {
+                'team': team,
+                'abrv': abrv.replace('\n','')
+            }
