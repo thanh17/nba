@@ -6,7 +6,6 @@ from scrapy.selector import Selector
 class RegularSpider(scrapy.Spider):
     name = 'regular'
 
-    # allowed_domains = ['https://www.basketball-reference.com/leagues/NBA_2019_standings.html']
     start_urls = ['https://www.basketball-reference.com/leagues/NBA_2019_standings.html']
 
     def parse(self, response):
