@@ -28,6 +28,9 @@ class NbaSpiderPipeline:
         return cls(db, user, passwd, host)
 
     def open_spider(self,spider):
+        """
+        Start connection to database when open the spider
+        """
         self.conn = mysql.connector.connect(
             host=self.host,
             database=self.db,
