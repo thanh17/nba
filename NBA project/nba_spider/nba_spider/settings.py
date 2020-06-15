@@ -14,7 +14,10 @@ BOT_NAME = 'nba_spider'
 SPIDER_MODULES = ['nba_spider.spiders']
 NEWSPIDER_MODULE = 'nba_spider.spiders'
 
-
+DB_SETTINGS = {
+    'db': 'nba',
+    'user':'root'
+}
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'nba_spider (+http://www.yourdomain.com)'
 
