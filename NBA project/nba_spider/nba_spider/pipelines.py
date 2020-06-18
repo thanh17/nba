@@ -54,10 +54,10 @@ class NbaSpiderPipeline:
 
     def create_table(self):
         print("creating table...")
-        self.cursor.execute("DROP TABLE IF EXISTS first_attempt")
-        self.cursor.execute("""CREATE TABLE first_attempt(
-            date DATE()
-            opponent TEXT 
+        self.curr.execute("""DROP TABLE IF EXISTS first_attempt""")
+        self.curr.execute("""CREATE TABLE first_attempt(
+            date INT,
+            opponent TEXT, 
             outcome TEXT)""")
 
     def process_item(self, item, spider):
@@ -100,11 +100,12 @@ class NbaSpiderPipeline:
     def store_db(self, item):
         sql = """INSERT INTO first_attempt (date, opponent, outcome) 
                     VALUES (%s, %s, %s)"""  
-        self.cursor.execute(
-            sql,
-            item.get('date'),
-            item.get('opponent'),
-            item.get('outcome'),
+        self.curr.execute(
+            """INSERT INTO first_attempt (date, opponent, outcome) 
+                    VALUES (%s, %s, %s)"""  ,(
+            item['date'][0],
+            item['opponent'][0],
+            item['outcome'][0])
             # item.get('team_pts'),
             # item.get('opp_pts'),
             # item.get('fg'),
@@ -123,5 +124,4 @@ class NbaSpiderPipeline:
             # item.get('tov'),
             # item.get('pf')
         )
-    def close_spider(self, spider):
-        self.conn.close()
+        self.conn.commit()

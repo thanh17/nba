@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from ..items import NbaSpiderItem
 import scrapy
 import csv
 
@@ -28,6 +29,8 @@ class GamelogSpider(scrapy.Spider):
             break
         
     def parse(self, response):
+        items = NbaSpiderItem()
+
         games = response.css('table tbody tr')
         for game in games:
             if game.get() in games.css('.thead').getall():
@@ -42,27 +45,30 @@ class GamelogSpider(scrapy.Spider):
             if game_data[0] == '@':
                 start += 1
                 stop +=1
-            outcome, team_pts, opp_pts,fg,fga, fgp, threes_fg, threes_a, three_p, ft, fta, orb, trb,ast, stl, blk,tov,pf = game_data[start:stop]
-            yield {
-                'date': date,
-                'opponent': opp,
-                'outcome': outcome,
-                'team_pts': team_pts,
-                'opp_pts': opp_pts,
-                'fg': fg,
-                'fga': fga,
-                'fgp': fgp,
-                'threes_fg':threes_fg,
-                'threes_a':threes_a, 
-                'three_p': three_p, 
-                'ft':ft, 
-                'fta':fta, 
-                'orb':orb, 
-                'trb':trb,
-                'ast':ast, 
-                'stl':stl, 
-                'blk':blk,
-                'tov':tov,
-                'pf': pf
-            }
+            items['date'] = date
+            items['opponent'] = opp
+            items['outcome'], items['team_pts'], items['opp_pts'],items['fg'],items['fga'], items['fgp'], items['threes_fg'], items['threes_a'], items['three_p'], items['ft'], items['fta'], items['orb'], items['trb'],items['ast'], items['stl'], items['blk'],items['tov'],items['pf'] = game_data[start:stop]
+            # yield {
+            #     'date': date,
+            #     'opponent': opp,
+            #     'outcome': outcome,
+            #     'team_pts': team_pts,
+            #     'opp_pts': opp_pts,
+            #     'fg': fg,
+            #     'fga': fga,
+            #     'fgp': fgp,
+            #     'threes_fg':threes_fg,
+            #     'threes_a':threes_a, 
+            #     'three_p': three_p, 
+            #     'ft':ft, 
+            #     'fta':fta, 
+            #     'orb':orb, 
+            #     'trb':trb,
+            #     'ast':ast, 
+            #     'stl':stl, 
+            #     'blk':blk,
+            #     'tov':tov,
+            #     'pf': pf
+            # }
+            yield items
             
