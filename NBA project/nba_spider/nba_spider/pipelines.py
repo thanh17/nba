@@ -43,93 +43,85 @@ class NbaSpiderPipeline:
             passwd=self.password
         )
         self.cursor = self.conn.cursor()
-        
-    # def create_connection(self):
-    #     print("creating connection")
-    #     self.conn =  mysql.connector.connect(
-    #         host = 'localhost',
-    #         user = 'root',
-    #         passwd = '1234',
-    #         database = 'nba'
-    #     )
-
-    #     self.curr = self.conn.cursor()
-
-    # def create_table(self):
-    #     print("creating table...")
-    #     self.curr.execute("""DROP TABLE IF EXISTS first_attempt""")
-    #     self.curr.execute("""CREATE TABLE first_attempt(
-    #         date INT,
-    #         opponent TEXT, 
-    #         outcome TEXT)""")
 
     def process_item(self, item, spider):
         print("Saving item into table...")
-        # self.cursor.execute("""DROP TABLE IF EXISTS """+ str(item.get('current_team')))
-        # self.cursor.execute("""CREATE TABLE """ + str(item.get('current_team')) + """(
-        #     date DATE,
-        #     opponent TEXT, 
-        #     outcome TEXT)""")
-        # sql = """INSERT INTO first_attempt (date, opponent, outcome, team_pts, opp_pts, fg, fga, fgp, 
-        #             threes_fg, threes_a, three_p, 
-        #             ft, fta, orb, trb, ast, stl, blk, tov, pf) 
-        #             VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 
-        #                     %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""  
-        sql = """INSERT INTO """ + str(item.get('current_team')) + """(date, opponent, outcome) 
-                    VALUES (%s, %s, %s)""" 
+        sql = """INSERT INTO """ + str(item.get('current_team')) + '_' + str(item.get('year')) + """ (date, opponent, outcome, team_pts, opp_pts, fg, fga, fgp, 
+                    threes_fg, threes_a, three_p, 
+                    ft, fta, orb, trb, ast, stl, blk, tov, pf) 
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 
+                            %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""  
         try: 
             self.cursor.execute(
                 sql,(
                 item.get('date'),
                 item.get('opponent'),
-                item.get('outcome'))
-                # item.get('team_pts'),
-                # item.get('opp_pts'),
-                # item.get('fg'),
-                # item.get('fga'),
-                # item.get('fgp'),
-                # item.get('threes_fg'),
-                # item.get('threes_a'), 
-                # item.get('three_p'), 
-                # item.get('ft'), 
-                # item.get('fta'), 
-                # item.get('orb'), 
-                # item.get('trb'),
-                # item.get('ast'), 
-                # item.get('stl'), 
-                # item.get('blk'),
-                # item.get('tov'),
-                # item.get('pf')
+                item.get('outcome'),
+                item.get('team_pts'),
+                item.get('opp_pts'),
+                item.get('fg'),
+                item.get('fga'),
+                item.get('fgp'),
+                item.get('threes_fg'),
+                item.get('threes_a'), 
+                item.get('three_p'), 
+                item.get('ft'), 
+                item.get('fta'), 
+                item.get('orb'), 
+                item.get('trb'),
+                item.get('ast'), 
+                item.get('stl'), 
+                item.get('blk'),
+                item.get('tov'),
+                item.get('pf'))
             )
         except:
-            self.cursor.execute("""DROP TABLE IF EXISTS """+ str(item.get('current_team')))
-            self.cursor.execute("""CREATE TABLE """ + str(item.get('current_team')) + """(
+            #create new table if not yet exist
+            self.cursor.execute("""DROP TABLE IF EXISTS """+ str(item.get('current_team'))+ '_' + str(item.get('year')))
+            self.cursor.execute("""CREATE TABLE """ + str(item.get('current_team')) + '_' + str(item.get('year')) + """(
                 date DATE,
                 opponent TEXT, 
-                outcome TEXT)""")
+                outcome TEXT,
+                team_pts INT,
+                opp_pts INT, 
+                fg INT, 
+                fga INT, 
+                fgp FLOAT, 
+                threes_fg INT, 
+                threes_a INT, 
+                three_p FLOAT, 
+                ft INT, 
+                fta INT , 
+                orb INT, 
+                trb INT, 
+                ast INT, 
+                stl INT, 
+                blk INT , 
+                tov INT, 
+                pf INT)""")
 
             self.cursor.execute(
                 sql,(
                 item.get('date'),
                 item.get('opponent'),
-                item.get('outcome'))
-                # item.get('team_pts'),
-                # item.get('opp_pts'),
-                # item.get('fg'),
-                # item.get('fga'),
-                # item.get('fgp'),
-                # item.get('threes_fg'),
-                # item.get('threes_a'), 
-                # item.get('three_p'), 
-                # item.get('ft'), 
-                # item.get('fta'), 
-                # item.get('orb'), 
-                # item.get('trb'),
-                # item.get('ast'), 
-                # item.get('stl'), 
-                # item.get('blk'),
-                # item.get('tov'),
-                # item.get('pf')
+                item.get('outcome'),
+                item.get('team_pts'),
+                item.get('opp_pts'),
+                item.get('fg'),
+                item.get('fga'),
+                item.get('fgp'),
+                item.get('threes_fg'),
+                item.get('threes_a'), 
+                item.get('three_p'), 
+                item.get('ft'), 
+                item.get('fta'), 
+                item.get('orb'), 
+                item.get('trb'),
+                item.get('ast'), 
+                item.get('stl'), 
+                item.get('blk'),
+                item.get('tov'),
+                item.get('pf'))
             )
 
         self.conn.commit()

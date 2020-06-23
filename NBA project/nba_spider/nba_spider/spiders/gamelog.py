@@ -26,13 +26,13 @@ class GamelogSpider(scrapy.Spider):
             urls.add('https://www.basketball-reference.com/teams/' + team + '/' + str(YEAR) + '/gamelog')
         for url in urls:
             yield scrapy.Request(url=url,callback=self.parse)
-            break
         
     def parse(self, response):
         items = NbaSpiderItem()
         games = response.css('table tbody tr')
         link = str(response).split('/')
         items['current_team'] = link[4]
+        items['year'] = link[5]
         for game in games:
             if game.get() in games.css('.thead').getall():
                 continue

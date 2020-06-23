@@ -12,7 +12,7 @@ class NbaSpiderItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
     current_team = scrapy.Field()
-    
+    year = scrapy.Field()
     date = scrapy.Field()
     team_pts = scrapy.Field()
     opponent = scrapy.Field()
