@@ -19,14 +19,22 @@ class GamelogSpider(scrapy.Spider):
             key = row[0]
             team_id[key] = row[1]
         del team_id['team']
-
+        # visited = {'WAS', 'UTA', 'TOR', 'SAS', 'SAC', 'POR', 'PHI', 'OKC', 'NYK', 'NOP', 'MIN', 'MIA', 'MIL', 'MEM','LAL', 'ORL', 'LAC', 'IND', 'HOU','GSW','DET', 'DEN','DAL', 'CLE', 'CHI', 'BOS', 'ATL'}
         urls = set()
+        # not_avail = {'BKN', 'PHX','CHA'}
         #add in all links that yield the log for NBA teams
         for team in team_id.values():
             urls.add('https://www.basketball-reference.com/teams/' + team + '/' + str(YEAR) + '/gamelog')
         for url in urls:
-            yield scrapy.Request(url=url,callback=self.parse)
-        
+            team_name = url.split('/')[4]
+            # if team_name not in visited:
+            try:
+                yield scrapy.Request(url=url,callback=self.parse)
+            except:
+                print(team_name)
+                continue
+            # else: 
+            #     continue
     def parse(self, response):
         items = NbaSpiderItem()
         games = response.css('table tbody tr')
