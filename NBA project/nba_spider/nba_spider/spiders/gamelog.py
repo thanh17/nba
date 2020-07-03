@@ -1,19 +1,19 @@
 # -*- coding: utf-8 -*-
-from ..items import NbaSpiderItem
 import scrapy
+from ..items import NbaSpiderItem
 import csv
 
 class GamelogSpider(scrapy.Spider):
     name = 'gamelog'
     
-    # urls = set()
     #     #add in all links that yield the log for NBA teams
     # for team in team_id.values():
     #     urls.add('https://www.basketball-reference.com/teams/' + team + '/' + str(YEAR) + '/gamelog')
 
     def start_requests(self):
+        urls = set()
         team_id = {}
-        YEAR = 2019
+        YEAR = 2020
         reader =csv.reader(open('NBA_abr.csv'))
         for row in reader:
             key = row[0]
