@@ -1,24 +1,28 @@
-# nba
-NBA Data Mining Using Scrapy. The goal of this project is to use Scrapy to get scrape web data and build a MySQL database of NBA records for future use. 
+# NBA
+NBA Data Mining Using Scrapy. 
+
+The goal of this project is to use Scrapy to get scrape web data and build a MySQL database of NBA records for future use. 
 Some quick analysis in Jupyter Notebook was also done but that was not the main motifs of this project.
 
 ## Data
 
-All data sources
+All data sources were taken from [Basketball Reference] (https://www.basketball-reference.com/).
 
+The method for collecting the data was simple:
+
+1. Using Python Scrapy's extension, scrape various from past NBA Seasons.
+   - Various spiders were created for different tasks:
+     - [gamelog.py](https://github.com/thanhn1756/nba/blob/master/NBA%20project/nba_spider/nba_spider/spiders/gamelog.py) crawled through individual game performances for each team for a given season.
+     - [playoffs.py](https://github.com/thanhn1756/nba/blob/master/NBA%20project/nba_spider/nba_spider/spiders/playoffs.py) crawled through past playoff performances.
+     - [regular.py](https://github.com/thanhn1756/nba/blob/master/NBA%20project/nba_spider/nba_spider/spiders/regular.py) crawled through past regular season perfomances.
+2. Using MySQL local server and Scrapy, a pipeline was created to directly pass scraped data through. 
+3. That's it! Now you have a database setup of past NBA records to do whatever
 ## Analysis
 
 Analysis was done using [Jupyter Notebook](https://github.com/thanhn1756/-UROP-Employment-Pathway/tree/master/Python%20notebooks). 
 
 #### Notebook Contents
 
-Demographic data: [AgesandWages.ipynb](https://github.com/thanhn1756/-UROP-Employment-Pathway/blob/master/Python%20notebooks/Ages%20and%20Wages.ipynb)
-
-Career Changer Matrix Modifications: [CareerChangerReplication.ipynb](https://github.com/thanhn1756/-UROP-Employment-Pathway/blob/master/Python%20notebooks/Career%20Changer%20Replication.ipynb)
-
-Comparison of Skills: [SkillTransitions.ipynb](https://github.com/thanhn1756/-UROP-Employment-Pathway/blob/master/Python%20notebooks/Skill%20Transitions.ipynb)
-
-Other Notebooks: Random stuff and descriptive statistics are contained in other Notebooks...feel free to poke around, I guess. 
 
 ### Packages used:
 
